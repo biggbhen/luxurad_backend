@@ -9,13 +9,15 @@ import { User } from './users/user.model';
 import { Model, ModelCtor } from 'sequelize-typescript';
 import { AuthModule } from './auth/auth.module';
 
+console.log('NO_DB:', process.env.NO_DB);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
     }),
-    ...(process.env.NO_DB === 'true'
+    ...(process.env.NO_DB?.toLowerCase() === 'true'
       ? []
       : [
           SequelizeModule.forRootAsync({
