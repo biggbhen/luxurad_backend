@@ -1,10 +1,23 @@
+// generate-openapi.ts
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { writeFileSync } from 'fs';
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller'; // or all controllers
+import { AppModule } from './app.module'; // fallback
+import { UsersController } from './users/users.controller';
+import { AuthController } from './auth/auth.controller';
+
+@Module({
+  imports: [], // leave out DB modules
+  controllers: [AppController, UsersController, AuthController], // add all controllers you want in docs
+  providers: [],
+})
+class OpenApiModule {}
 
 async function generateOpenAPI() {
-  const app = await NestFactory.create(AppModule, { logger: false });
+  // use OpenApiModule instead of AppModule to avoid DB
+  const app = await NestFactory.create(OpenApiModule, { logger: false });
 
   const config = new DocumentBuilder()
     .setTitle('Luxurad API')
