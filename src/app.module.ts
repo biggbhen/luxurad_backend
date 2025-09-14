@@ -15,35 +15,39 @@ import { AuthModule } from './auth/auth.module';
       load: [configuration],
       isGlobal: true,
     }),
-    SequelizeModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        interface DatabaseConfig {
-          host: string;
-          port: number;
-          username: string;
-          password: string;
-          name: string;
-        }
-        const dbConfig = configService.get<DatabaseConfig>('database');
-        if (!dbConfig) {
-          throw new Error('Database configuration is missing');
-        }
-        return {
-          dialect: 'mysql',
-          host: dbConfig.host,
-          port: dbConfig.port,
-          username: dbConfig.username,
-          password: dbConfig.password,
-          models: [User as ModelCtor<Model>],
-          autoLoadModels: true,
-          logging: true,
-          database: dbConfig.name,
-          synchronize: true,
-        };
-      },
-    }),
+    ...(process.env.NO_DB === 'true'
+      ? []
+      : [
+          SequelizeModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+              interface DatabaseConfig {
+                host: string;
+                port: number;
+                username: string;
+                password: string;
+                name: string;
+              }
+              const dbConfig = configService.get<DatabaseConfig>('database');
+              if (!dbConfig) {
+                throw new Error('Database configuration is missing');
+              }
+              return {
+                dialect: 'mysql',
+                host: dbConfig.host,
+                port: dbConfig.port,
+                username: dbConfig.username,
+                password: dbConfig.password,
+                models: [User as ModelCtor<Model>],
+                autoLoadModels: true,
+                logging: true,
+                database: dbConfig.name,
+                synchronize: true,
+              };
+            },
+          }),
+        ]),
     UsersModule,
     AuthModule,
   ],
