@@ -1,13 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from 'src/auth/auth.module';
-import { UsersModule } from 'src/users/users.module';
-
+import { AuthDocsModule } from 'src/auth/docs/module';
+import { UsersDocsModule } from 'src/users/docs/module';
 
 @Module({
-  imports: [
-    // only bring in modules with controllers you want documented
-    UsersModule,
-    AuthModule,
-  ],
+  imports: [UsersDocsModule, AuthDocsModule],
 })
 export class DocsModule {}
