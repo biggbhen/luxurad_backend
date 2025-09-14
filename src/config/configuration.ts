@@ -7,3 +7,4 @@ export default () => ({
     name: process.env.DATABASE_NAME || 'my_db',
   },
 });
+console.log('Loaded config:', process.env);
