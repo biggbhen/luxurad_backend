@@ -1,4 +1,5 @@
 name: Generate & Deploy OpenAPI Docs
+run: NO_DB=true npm run generate:openapi
 
 on:
   push:
