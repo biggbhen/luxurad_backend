@@ -2,14 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { writeFileSync } from 'fs';
 import { DocsModule } from './docs/module';
+import { INestApplication } from '@nestjs/common';
 
 
 async function generateOpenAPI() {
   console.log('🚀 Starting OpenAPI generation...');
 
-  const app = await NestFactory.create(DocsModule, {
+  const app = (await NestFactory.createApplicationContext(DocsModule, {
     logger: false,
-  });
+  })) as unknown as INestApplication;
+
   console.log('✅ Nest app created (DocsModule only)');
 
   const config = new DocumentBuilder()
