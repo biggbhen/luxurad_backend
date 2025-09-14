@@ -27,7 +27,6 @@ jobs:
         run: npm run generate:openapi
         env:
           NO_DB: true 
-        env:
           ACTIONS_STEP_DEBUG: true
 
       - name: Copy OpenAPI spec into docs folder
