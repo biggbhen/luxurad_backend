@@ -20,6 +20,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check OpenAPI output
+        run: |
+          ls -la
+          cat openapi.json | head -n 30
+
       - name: Generate OpenAPI spec
         run: npm run generate:openapi
         env:
