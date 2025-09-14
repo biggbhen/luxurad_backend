@@ -23,6 +23,8 @@ jobs:
 
       - name: Generate OpenAPI spec
         run: npm run generate:openapi
+        env:
+          NO_DB: true 
 
       - name: Copy OpenAPI spec into docs folder
         run: cp openapi.json docs/openapi.json
