@@ -8,9 +8,9 @@ import { INestApplication } from '@nestjs/common';
 async function generateOpenAPI() {
   console.log('🚀 Starting OpenAPI generation...');
 
-  const app = (await NestFactory.createApplicationContext(DocsModule, {
+  const app = (await NestFactory.create(DocsModule, {
     logger: false,
-  })) as unknown as INestApplication;
+  }));
 
   console.log('✅ Nest app created (DocsModule only)');
 
