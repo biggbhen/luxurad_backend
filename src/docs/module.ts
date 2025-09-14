@@ -1,8 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AuthDocsModule } from 'src/auth/docs/module';
-import { UsersDocsModule } from 'src/users/docs/module';
+import { UsersController } from 'src/users/users.controller';
+import { AuthController } from 'src/auth/auth.controller';
+
+// 👇 create mock services that don't touch DB
+class DummyUsersService {}
+class DummyAuthService {}
 
 @Module({
-  imports: [UsersDocsModule, AuthDocsModule],
+  controllers: [UsersController, AuthController],
+  providers: [
+    { provide: 'UsersService', useClass: DummyUsersService },
+    { provide: 'AuthService', useClass: DummyAuthService },
+  ],
 })
 export class DocsModule {}
